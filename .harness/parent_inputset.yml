@@ -1,0 +1,21 @@
+inputSet:
+  name: parent_pr_pipeline_chaining_inputset
+  identifier: parent_pr_pipeline_chaining_inputset
+  orgIdentifier: SE_Sandbox
+  projectIdentifier: parson
+  pipeline:
+    identifier: tensorflow_pr_pipeline_chaining
+    stages:
+      - stage:
+          identifier: Child_1_via_Runtime_Input
+          type: Pipeline
+          spec:
+            inputs:
+              identifier: tensorflow_chained_child_pipeline_1
+              properties:
+                ci:
+                  codebase:
+                    build:
+                      type: PR
+                      spec:
+                        number: <+trigger.prNumber>
