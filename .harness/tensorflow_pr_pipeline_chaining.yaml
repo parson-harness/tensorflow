@@ -30,7 +30,23 @@ pipeline:
                       echo "trigger.prNumber: <+trigger.prNumber>"
                       echo "trigger.branch: <+trigger.branch>"
     - stage:
-        name: Child 1
+        name: Child 1 via Runtime Input
+        identifier: Child_1_via_Runtime_Input
+        description: ""
+        type: Pipeline
+        spec:
+          org: SE_Sandbox
+          pipeline: tensorflow_chained_child_pipeline_1
+          project: parson
+          inputs:
+            identifier: tensorflow_chained_child_pipeline_1
+            properties:
+              ci:
+                codebase:
+                  build: <+input>
+          outputs: []
+    - stage:
+        name: Child 1 via Input Set
         identifier: Child_1
         description: ""
         type: Pipeline
@@ -39,15 +55,8 @@ pipeline:
           pipeline: tensorflow_chained_child_pipeline_1
           project: parson
           outputs: []
-          inputs:
-            identifier: tensorflow_chained_child_pipeline_1
-            properties:
-              ci:
-                codebase:
-                  build:
-                    type: PR
-                    spec:
-                      number: <+trigger.prNumber>
+          inputSetReferences:
+            - childinputsetprnumber
         tags: {}
         variables: []
   variables: []
